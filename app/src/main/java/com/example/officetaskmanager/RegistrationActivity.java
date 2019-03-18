@@ -41,7 +41,6 @@ public class RegistrationActivity extends AppCompatActivity {
          btnreg =findViewById(R.id.btnreg);
          btnloginrev =findViewById(R.id.btnloginrev);
 
-        FirebaseApp.initializeApp(this);
         mAuth=FirebaseAuth.getInstance();
         mDialog=new ProgressDialog(this);
 

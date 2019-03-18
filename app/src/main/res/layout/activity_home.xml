@@ -1,9 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HomeActivity">
+    tools:context=".HomeActivity"
+    android:orientation="vertical">
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:popupTheme="@style/Base.Theme.AppCompat.Light.DarkActionBar"
+        android:theme="@style/Base.Theme.AppCompat.Light.DarkActionBar"
+        android:id="@+id/hometoolbar"
+        android:background="@color/colorPrimary">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/backbtntoolbar"
+            android:layout_marginRight="20dp"
+            android:src="@drawable/back"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="HOME"
+            android:textColor="#FFFFFF"
+            android:textSize="25sp" />
 
-</android.support.constraint.ConstraintLayout>
+    </android.support.v7.widget.Toolbar>
+ <android.support.design.widget.CoordinatorLayout
+     android:layout_width="match_parent"
+     android:layout_height="match_parent">
+     <android.support.v7.widget.RecyclerView
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+         android:id="@+id/recyclerView">
+
+     </android.support.v7.widget.RecyclerView>
+
+     <android.support.design.widget.FloatingActionButton
+         android:id="@+id/floatingActionButton"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:clickable="true"
+         android:layout_gravity="bottom|end"
+         app:fabSize="normal"
+         android:src="@drawable/fab"
+         android:layout_margin="20dp"
+         android:backgroundTint="@color/colorPrimary">
+     </android.support.design.widget.FloatingActionButton>
+
+ </android.support.design.widget.CoordinatorLayout>
+
+</LinearLayout>
