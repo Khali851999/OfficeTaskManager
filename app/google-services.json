@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "746980876687",
+    "firebase_url": "https://officetaskmanager-f98da.firebaseio.com",
+    "project_id": "officetaskmanager-f98da",
+    "storage_bucket": "officetaskmanager-f98da.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:746980876687:android:6e4fa15a0a58d715",
+        "android_client_info": {
+          "package_name": "com.example.officetaskmanager"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "746980876687-93tecqkth6g92gnqa0jei9tins4mf4kv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.officetaskmanager",
+            "certificate_hash": "36db03eb6a522da2a7b8057b7bc1503338d3c9d4"
+          }
+        },
+        {
+          "client_id": "746980876687-4emi672e9meqropto2j3gt6qnv768rue.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAJRAPDF0BKR45EM9nLxMFffXqvH1g5RxM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "746980876687-4emi672e9meqropto2j3gt6qnv768rue.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
