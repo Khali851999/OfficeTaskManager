@@ -42,13 +42,21 @@ public class HomeActivity extends AppCompatActivity {
     FloatingActionButton floatingActionButton;
      RecyclerView recyclerView;
 
+     android.support.v7.widget.Toolbar toolbar;
+
     private DatabaseReference mdatabase;
     private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_home);
 
+         toolbar=(android.support.v7.widget.Toolbar) findViewById(R.id.hometoolbar);
+         setSupportActionBar(toolbar);
+
+//         setting title
+         getSupportActionBar().setTitle("");
 
 
 //firebase
@@ -169,7 +177,7 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.mainmenu,menu);
-        return super.onCreateOptionsMenu(menu);
+        return true;
     }
 
     @Override
@@ -181,7 +189,11 @@ public class HomeActivity extends AppCompatActivity {
                 startActivity(intent);
                 break;
             case R.id.refresh:
-                Toast.makeText(HomeActivity.this,"akshat",Toast.LENGTH_SHORT).show();
+                Snackbar snack=Snackbar.make(findViewById(android.R.id.content),"Refreshing",Snackbar.LENGTH_SHORT);
+                snack.getView().setBackgroundResource(R.color.colorPrimaryDark);
+                TextView textView = (TextView)snack.getView().findViewById(android.support.design.R.id.snackbar_text);
+                textView.setTextColor(Color.WHITE);
+                snack.show();
                 break;
         }
         return super.onOptionsItemSelected(item);

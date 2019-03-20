@@ -30,13 +30,12 @@
             <RelativeLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1">
+                android:layout_weight="3">
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Title"
                     android:padding="6dp"
-                    android:maxLines="1"
                     android:textColor="#000000"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                     android:id="@+id/title"/>
@@ -45,8 +44,8 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/title"
                     android:text="Note"
-                    android:maxLines="2"
-                    android:padding="6dp"
+                    android:padding="2dp"
+                    android:maxLines="6"
                     android:textColor="#000000"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                     android:id="@+id/note"/>
