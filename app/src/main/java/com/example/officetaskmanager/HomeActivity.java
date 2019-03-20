@@ -1,5 +1,6 @@
 package com.example.officetaskmanager;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
@@ -27,6 +28,8 @@ import android.widget.Toolbar;
 
 import com.example.officetaskmanager.modal.data;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -41,17 +44,22 @@ import java.util.zip.Inflater;
 public class HomeActivity extends AppCompatActivity {
     FloatingActionButton floatingActionButton;
      RecyclerView recyclerView;
-
-     android.support.v7.widget.Toolbar toolbar;
-
+//toolbar
+    android.support.v7.widget.Toolbar toolbar;
+//firebase
     private DatabaseReference mdatabase;
     private FirebaseAuth mAuth;
+//updatedata()
+    private String note;
+    private String title;
+    private String post_key;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+//     setting custon title bar if not this then default one is also there just cnge manifest file
          toolbar=(android.support.v7.widget.Toolbar) findViewById(R.id.hometoolbar);
          setSupportActionBar(toolbar);
 
@@ -84,10 +92,12 @@ public class HomeActivity extends AppCompatActivity {
                 //creating floating input fiels
                 AlertDialog.Builder myDialog = new AlertDialog.Builder(HomeActivity.this);
                 LayoutInflater myInflater = LayoutInflater.from(HomeActivity.this);
-                //adding custized layout to the dialog box
+                //adding custumized custominputlayout.xml to the dialog box
                 View myview = myInflater.inflate(R.layout.custominputlayout, null);
                 myDialog.setView(myview);
                 final AlertDialog dialog = myDialog.create();
+                dialog.show();
+
                 final EditText ettitle = myview.findViewById(R.id.ettitle);
                 final EditText etnote = myview.findViewById(R.id.etnote);
                 final Button btnsave = myview.findViewById(R.id.btnsave);
@@ -111,7 +121,7 @@ public class HomeActivity extends AppCompatActivity {
 
                     }
                 });
-                dialog.show();
+
 
             }
         });
@@ -128,10 +138,22 @@ public class HomeActivity extends AppCompatActivity {
                 mdatabase
         ) {
             @Override
-            protected void populateViewHolder(myviewholder viewHolder, data model, int position) {
+            protected void populateViewHolder(final myviewholder viewHolder, final data model, final int position) {
                 viewHolder.settitle(model.getTitle());
                 viewHolder.setnote(model.getNote());
                 viewHolder.setdate(model.getDate());
+                viewHolder.myview.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                      //getting stored data at position and storing it into string
+                        post_key=getRef(position).getKey();
+                        title=model.getTitle();
+                        note=model.getNote();
+
+                        updatedata();
+                    }
+                });
 
 
             }
@@ -173,6 +195,68 @@ public class HomeActivity extends AppCompatActivity {
             mydate.setText(date);
         }
     }
+    public void updatedata()
+    {
+        //creating floating input fiels
+        final AlertDialog.Builder myDialog = new AlertDialog.Builder(HomeActivity.this);
+        LayoutInflater myInflater = LayoutInflater.from(HomeActivity.this);
+
+        //adding custumized layout updatefieldlayout.xml to the dialog box
+        View myview = myInflater.inflate(R.layout.updatefieldlayout, null);
+        myDialog.setView(myview);
+        final AlertDialog dialog = myDialog.create();
+        dialog.show();
+
+        final EditText ettitleupd = myview.findViewById(R.id.ettitleupd);
+        final EditText etnoteupd = myview.findViewById(R.id.etnoteupd);
+        final Button update=myview.findViewById(R.id.update);
+        final Button delete=myview.findViewById(R.id.delete);
+
+//setting data on the update dialog box to update
+        ettitleupd.setText(title);
+        ettitleupd.setSelection(title.length());
+        etnoteupd.setText(note);
+        etnoteupd.setSelection(note.length());
+
+
+        update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                title=ettitleupd.getText().toString().trim();
+                note=etnoteupd.getText().toString().trim();
+                String Date=DateFormat.getDateInstance().format(new Date());
+
+// creating object of modal class and transferring values to it
+                data data1= new data(title,note,Date,post_key);
+//updating firebase corresponding to id=post_key
+                mdatabase.child(post_key).setValue(data1).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        Toast.makeText(HomeActivity.this,"Updated",Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                dialog.dismiss();
+
+            }
+        });
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+       // deleting data
+                mdatabase.child(post_key).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        Toast.makeText(HomeActivity.this,"Deleted",Toast.LENGTH_SHORT).show();
+                    }
+                });
+                dialog.dismiss();
+            }
+        });
+
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -188,8 +272,17 @@ public class HomeActivity extends AppCompatActivity {
                 Intent intent=new Intent(HomeActivity.this,MainActivity.class);
                 startActivity(intent);
                 break;
+
             case R.id.refresh:
-                Snackbar snack=Snackbar.make(findViewById(android.R.id.content),"Refreshing",Snackbar.LENGTH_SHORT);
+
+//             default   snackbar
+                Snackbar snack=Snackbar.make(findViewById(android.R.id.content),"Refreshing",Snackbar.LENGTH_SHORT)
+                        .setAction("VIEW", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                            }
+                        });
+                snack.setActionTextColor(Color.WHITE);
                 snack.getView().setBackgroundResource(R.color.colorPrimaryDark);
                 TextView textView = (TextView)snack.getView().findViewById(android.support.design.R.id.snackbar_text);
                 textView.setTextColor(Color.WHITE);

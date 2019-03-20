@@ -5,8 +5,7 @@ public class data {
     String Note;
     String Date;
     String Id;
-    public data()
-    {
+    public data(){
 
     }
     public data(String title, String note, String date, String id) {
